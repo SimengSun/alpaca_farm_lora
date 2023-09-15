@@ -127,7 +127,7 @@ python run_eval.py --input-path $IN_PATH --output-path $OUT_PATH
 
 To train on customized data, make sure that your data conforms to the [AlpacaFarm dataset format](https://huggingface.co/datasets/tatsu-lab/alpaca_farm/raw/main/alpaca_instructions/unlabeled.json).
 
-Add your own dataset (.json file) to downloaded alpaca_farm data directionry, and add configs to the [`alpaca_farm.py` file](https://huggingface.co/datasets/tatsu-lab/alpaca_farm/blob/main/alpaca_farm.py). 
+Add your own dataset (.json file) to the downloaded alpaca_farm data directory, and add configs to the [`alpaca_farm.py` file](https://huggingface.co/datasets/tatsu-lab/alpaca_farm/blob/main/alpaca_farm.py). 
 
 ## Use our pre-trained LoRA weights
 
