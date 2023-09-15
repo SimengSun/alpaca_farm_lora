@@ -1,15 +1,15 @@
-# A LoRA-based implementation of AlpacaFarm RLHF PPO
+# A LoRA-based implementation of the PPO stage in RLHF, built on AlpacaFarm
 
-This repository is mostly based on [AlpacaFarm repository](https://github.com/tatsu-lab/alpaca_farm). Check their license [https://github.com/tatsu-lab/alpaca_farm/blob/main/LICENSE](https://github.com/tatsu-lab/alpaca_farm/blob/main/LICENSE). The primary changes happen in the `ppo_trainer.py` file in `alpaca_farm/src/alpaca_farm/rl` folder.
+This repository contains code / model weights to reproduce the experiments in our paper: [**Exploring the impact of low-rank adaptation on the performance, efficiency, and regularization of RLHF**](https://people.cs.umass.edu/~simengsun/paper/rlhf_tech_report.pdf). It is mostly based on the [AlpacaFarm repository](https://github.com/tatsu-lab/alpaca_farm), with primary changes in the `ppo_trainer.py` file located in the `alpaca_farm/src/alpaca_farm/rl` folder.
 
-The original [AlpacaFarm repository](https://github.com/tatsu-lab/alpaca_farm/) requires 8 A100 80GB GPUs for successful PPO training. In this repository, we provide an implementation of AlpacaFarm PPO with low-rank adaptation (LoRA), which reduces the memory requirements from **8 A100** to **2 A100** GPUs. The published results can be reached within 10 hours of training. 
+The original [AlpacaFarm repository](https://github.com/tatsu-lab/alpaca_farm/) requires 8 A100 80GB GPUs for successful PPO training. Our implementation of AlpacaFarm PPO with low-rank adaptation (LoRA) reduces the memory requirements from **8 A100** to **2 A100** GPUs. Our published results can be reached within 10 hours of training.  We find that performing PPO training with LoRA does not affect the win rate of the resulting model (measured against text-davinci-003); in fact, several of our LoRA configurations outperform the public AlpacaFarm checkpoint (trained with full model fine-tuning) in terms of win rate. 
 
-With reduced hardware requirements, we also perform a series of evaluation and analysis with our LoRA setup. We find that current KL regularization implemented in most open-source repositories under-performs Jensen-Shannon divergence regularizer, which consistently achieves better win rates than other regularizers. We also conduct factual precision analysis of released checkpoints and our LoRA-based checkpoints. Results on [FActScore](https://github.com/shmsw25/FActScore) indicate that PPO negatively affects factual precision in long-form model output, however low-rank adaptation can effectively alleviate the degradation in factuality.
-Check out our technical report here: [**Exploring the impact of low-rank adaptation on the performance, efficiency, and regularization of RLHF**](https://people.cs.umass.edu/~simengsun/paper/rlhf_tech_report.pdf)
+Having reduced the hardware requirements, we also perform a series of analysis experiments with our LoRA setup. We find that current KL regularization implemented in most RLHF open-source repositories underperforms the Jensen-Shannon divergence regularizer, which consistently achieves better win rates than other regularizers. We also conduct an analysis of the factuality of text generated from both existing AlpacaFarm checkpoints as well as our LoRA-based checkpoints. Results on [FActScore](https://github.com/shmsw25/FActScore) indicate that PPO negatively affects factual precision in long-form model output; however, LoRA alleviates the degradation in factuality to a large extent.
+
 
 ![](alpaca_farm/assets/C63B0F56-0CB2-4AFD-8BD3-39DCB60A2DD1.png)
 
-Note that we use an outdated version (the version before AlpacaFarm Jun 23,2023 update) of automated evaluation, so the numbers are not directly comparable to the latest reported numbers. Our number is comparable to their previous reported number [here](https://github.com/tatsu-lab/alpaca_farm/blob/1fe814f316f5e086808a3a08bb40b490fb854cc4/src/alpaca_farm/auto_annotations/eval.py#L23). The `auto_annotations` in this repository is of the outdated version.
+Note that we use an older version of AlpacaEval (the version before the AlpacaFarm Jun 23,2023 update) to perform automated evaluation, so our numbers are not directly comparable to the latest reported numbers on their leaderboard. Our number is comparable to their previous reported number [here](https://github.com/tatsu-lab/alpaca_farm/blob/1fe814f316f5e086808a3a08bb40b490fb854cc4/src/alpaca_farm/auto_annotations/eval.py#L23). The `auto_annotations` in this repository is obtained using the older version.
 
 # Requirements
 
@@ -92,7 +92,7 @@ CUDA_VISIBLE_DEVICES=0,1 python examples/rlhf_ppo.py \
   --lora_dropout 0.1 
 ``` 
 
-`--kl_term_variant` can take in variants [`kl`, `clamped_kl`, `bregman`, `jensen_shannon`, `squared_error`]. We empirically find `jensen_shannon` performs the best on AlpacaFarm evaluation set. To disable KL, set `kl_coef` to 0. In our report, we provide comparison of these KL variants.
+`--kl_term_variant` can take in variants [`kl`, `clamped_kl`, `bregman`, `jensen_shannon`, `squared_error`]. We empirically find `jensen_shannon` performs the best on AlpacaFarm evaluation set in terms of win rate. To disable KL, set `kl_coef` to 0. In our report, we provide a comparison of these KL variants.
 
 ![](alpaca_farm/assets/742C0BE6-97B6-4C12-92DF-A9273E45F825.png)
 
@@ -150,6 +150,16 @@ To use the LoRA weights, replace `MODEL_PATH` in the evaluation script to the co
 
 # Citations
 ```
+@misc{sun2023explore,
+      title={Exploring the impact of low-rank adaptation on the performance, efficiency, and regularization of RLHF}, 
+      author={Simeng Sun and Dhawal Gupta and Mohit Iyyer},
+      year={2023},
+      eprint={tobeadded},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+```
+```
 @misc{dubois2023alpacafarm,
       title={AlpacaFarm: A Simulation Framework for Methods that Learn from Human Feedback}, 
       author={Yann Dubois and Xuechen Li and Rohan Taori and Tianyi Zhang and Ishaan Gulrajani and Jimmy Ba and Carlos Guestrin and Percy Liang and Tatsunori B. Hashimoto},
@@ -160,13 +170,5 @@ To use the LoRA weights, replace `MODEL_PATH` in the evaluation script to the co
 }
 ```
 
+
 ```
-@misc{sun2023explore,
-      title={Exploring the impact of low-rank adaptation on the performance, efficiency, and regularization of RLHF}, 
-      author={Simeng Sun and Dhawal Gupta and Mohit Iyyer},
-      year={2023},
-      eprint={tobeadded},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
-}
-``````
