@@ -28,7 +28,11 @@ cd transformers-4.30.1
 pip install --editable ./
 ```
 
-This repository uses `loralib` for enabling low-rank adaptation. We use `loralib=0.1.1=pypi_0` version while disabling the `reset_parameters` for linear weights in the `reset_parameters` function. 
+This repository uses `loralib` for enabling low-rank adaptation. We use `loralib=0.1.1=pypi_0` version while disabling the `reset_parameters` for linear weights in the `reset_parameters` function. The version of loralib we used is included in this repository in the `loralib` folder. Run the following to add the included loralib to your `PYTHONPATH`:
+```
+cd alpaca_farm_lora
+export PYTHONPATH=$PWD:$PYTHONPATH
+```
 
 ## Hardware requirements
 Two A100 80GB GPUs
