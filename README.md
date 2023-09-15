@@ -7,7 +7,7 @@ The original [AlpacaFarm repository](https://github.com/tatsu-lab/alpaca_farm/) 
 With reduced hardware requirements, we also perform a series of evaluation and analysis with our LoRA setup. We find that current KL regularization implemented in most open-source repositories under-performs Jensen-Shannon divergence regularizer, which consistently achieves better win rates than other regularizers. We also conduct factual precision analysis of released checkpoints and our LoRA-based checkpoints. Results on [FActScore](https://github.com/shmsw25/FActScore) indicate that PPO negatively affects factual precision in long-form model output, however low-rank adaptation can effectively alleviate the degradation in factuality.
 Check out our technical report here: [**Exploring the impact of low-rank adaptation on the performance, efficiency, and regularization of RLHF**](https://people.cs.umass.edu/~simengsun/paper/rlhf_tech_report.pdf)
 
-![](C63B0F56-0CB2-4AFD-8BD3-39DCB60A2DD1.png)
+![](alpaca_farm/assets/C63B0F56-0CB2-4AFD-8BD3-39DCB60A2DD1.png)
 
 Note that we use an outdated version (the version before AlpacaFarm Jun 23,2023 update) of automated evaluation, so the numbers are not directly comparable to the latest reported numbers. Our number is comparable to their previous reported number [here](https://github.com/tatsu-lab/alpaca_farm/blob/1fe814f316f5e086808a3a08bb40b490fb854cc4/src/alpaca_farm/auto_annotations/eval.py#L23). The `auto_annotations` in this repository is of the outdated version.
 
@@ -94,7 +94,7 @@ CUDA_VISIBLE_DEVICES=0,1 python examples/rlhf_ppo.py \
 
 `--kl_term_variant` can take in variants [`kl`, `clamped_kl`, `bregman`, `jensen_shannon`, `squared_error`]. We empirically find `jensen_shannon` performs the best on AlpacaFarm evaluation set. To disable KL, set `kl_coef` to 0. In our report, we provide comparison of these KL variants.
 
-![](742C0BE6-97B6-4C12-92DF-A9273E45F825.png)
+![](alpaca_farm/assets/742C0BE6-97B6-4C12-92DF-A9273E45F825.png)
 
 ## Evaluation
 
