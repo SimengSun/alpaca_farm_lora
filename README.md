@@ -133,6 +133,21 @@ Add your own dataset (.json file) to downloaded alpaca_farm data directionry, an
 
 Our pre-trained LoRA weights can be downloaded from [here](https://huggingface.co/simsun131/alpacafarm_ppo_lora/tree/main), where we share checkpoints trained after 100 PPO steps with various regularization methods (KL, clamped KL, Bregman, Jensen-Shannon, squared error, no regularization). 
 
+```
+git lfs install
+git clone git@hf.co:simsun131/alpacafarm_ppo_lora ./
+```
+This will download a folder containing folders
+- `bregman`
+- `clamped_kl`
+- `jensen_shannon`
+- `kl`
+- `no_regularization`
+- `squared_error`
+
+To use the LoRA weights, replace `MODEL_PATH` in the evaluation script to the corresponding regularizer folder.
+
+
 # Citations
 ```
 @misc{dubois2023alpacafarm,
