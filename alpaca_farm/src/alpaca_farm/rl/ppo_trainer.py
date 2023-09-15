@@ -78,8 +78,8 @@ class PPOTrainer(rl_trainer.RLTrainer):
             kl = logprobs - ref_logprobs
 
         elif self.args.kl_term_variant == "bregman":
-            r = logprobs.exp() / ref_logprobs.exp()
-            kl = (r - 1) + (ref_logprobs - logprobs)
+            r = ref_logprobs.exp() / logprobs.exp()
+            kl = (r - 1) + (logprobs - ref_logprobs)
 
         elif self.args.kl_term_variant == "squared_error":
             kl = 1/2 * (logprobs - ref_logprobs)**2
