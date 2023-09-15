@@ -92,11 +92,11 @@ def _openai_completion_helper(
     is_chat: bool,
     sleep_time: int,
     openai_organization_ids: Optional[Sequence[str]] = None,
-    openai_api_key: Optional[str] = None,
+    openai_api_key: Optional[str] = os.environ.get("OPENAI_API_KEY", None),
     **shared_kwargs,
 ):
     if openai_api_key is not None:
-        openai.api_key = os.environ.get("OPENAI_API_KEY_UMASS", None) #openai_api_key
+        openai.api_key = openai_api_key
 
     # randomly select orgs
     if openai_organization_ids is not None:
