@@ -158,7 +158,7 @@ To use the LoRA weights, replace `MODEL_PATH` in the evaluation script to the co
       title={Exploring the impact of low-rank adaptation on the performance, efficiency, and regularization of RLHF}, 
       author={Simeng Sun and Dhawal Gupta and Mohit Iyyer},
       year={2023},
-      eprint={tobeadded},
+      eprint={2309.09055},
       archivePrefix={arXiv},
       primaryClass={cs.LG}
 }
